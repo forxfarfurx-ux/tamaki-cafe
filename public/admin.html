@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>かぷー喫茶 管理画面</title>
+  <style>
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f3f6ff; margin: 0; color: #1e2a3a; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 22px; }
+    h1 { margin: 0 0 6px; font-size: 26px; }
+    .sub { color: #66718a; margin-bottom: 18px; }
+    .toolbar { display: flex; gap: 10px; margin-bottom: 18px; }
+    button { border: none; padding: 11px 14px; border-radius: 999px; background: #233f7a; color: white; font-weight: 800; cursor: pointer; }
+    .clear { background: #777; }
+    .order { background: white; border-radius: 20px; padding: 18px; margin-bottom: 14px; box-shadow: 0 8px 22px rgba(20,40,80,.10); border-left: 8px solid #ff9f1c; }
+    .order.done { opacity: .55; border-left-color: #9aa4b2; }
+    .title { font-size: 20px; font-weight: 900; margin-bottom: 8px; }
+    .meta { color: #66718a; font-size: 14px; margin-bottom: 10px; }
+    .line { line-height: 1.8; font-size: 17px; }
+    .empty { background: white; border-radius: 18px; padding: 20px; color: #66718a; text-align: center; }
+    .badge { display: inline-block; font-size: 13px; padding: 4px 9px; border-radius: 999px; background: #fff1d8; color: #7b4a00; margin-left: 8px; }
+    a { color: #233f7a; font-weight: 800; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>📋 かぷー喫茶 注文管理</h1>
+    <div class="sub">注文が入ると自動で表示されます。PCでQRを出すなら <a href="/qr.html">QR表示ページ</a> へ。</div>
+    <div class="toolbar">
+      <button onclick="loadOrders()">更新</button>
+      <button class="clear" onclick="clearOrders()">全部消す</button>
+    </div>
+    <div id="orders"></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    socket.on("new-order", () => {
+      playSound();
+      loadOrders();
+      if (navigator.vibrate) navigator.vibrate([200, 80, 200]);
+    });
+
+    socket.on("orders-updated", () => loadOrders());
+
+    function playSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 880;
+        gain.gain.value = 0.08;
+        osc.start();
+        setTimeout(() => { osc.stop(); ctx.close(); }, 180);
+      } catch (e) {}
+    }
+
+    async function loadOrders() {
+      const res = await fetch("/api/orders");
+      const orders = await res.json();
+      const area = document.getElementById("orders");
+
+      if (!orders.length) {
+        area.innerHTML = '<div class="empty">まだ注文はありません。コーヒー豆、静かに待機中。</div>';
+        return;
+      }
+
+      area.innerHTML = orders.map(o => `
+        <div class="order ${o.status === "done" ? "done" : ""}">
+          <div class="title">
+            ${escapeHtml(o.item)}
+            ${o.status === "done" ? '<span class="badge">対応済み</span>' : '<span class="badge">新規</span>'}
+          </div>
+          <div class="meta">${escapeHtml(o.time)}</div>
+          <div class="line">サイズ：${escapeHtml(o.size)}</div>
+          <div class="line">砂糖：${escapeHtml(o.sugar)} / ミルク：${escapeHtml(o.milk)}</div>
+          <div class="line">ひとこと：${escapeHtml(o.note || "なし")}</div>
+          ${o.status === "done" ? "" : `<button onclick="markDone(${o.id})">対応済みにする</button>`}
+        </div>
+      `).join("");
+    }
+
+    async function markDone(id) {
+      await fetch(`/api/orders/${id}/done`, { method: "POST" });
+      loadOrders();
+    }
+
+    async function clearOrders() {
+      if (!confirm("注文履歴を全部消しますか？")) return;
+      await fetch("/api/orders/clear", { method: "POST" });
+      loadOrders();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    loadOrders();
+  </script>
+</body>
+</html>
