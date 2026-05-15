@@ -61,12 +61,9 @@
 
       <button onclick="sendOrder()">注文する</button>
 
-　　　<div id="done" class="done">
-  　　　注文を送信しました。<br>
-  　　　たまき店長が気まぐれに<br>
-  　　　準備中です。
-　　　</div>
-
+      <div id="done" class="done">注文を送信しました。<br>店主かぷーが豆の精霊と相談しています。</div>
+      <div class="tiny">Kapoo Cafe v0.2</div>
+    </div>
   </div>
 
   <script>
@@ -85,11 +82,12 @@
         body: JSON.stringify(order)
       });
 
-if (res.ok) {
-  document.getElementById("done").style.display = "block";
-} else {
-  alert("注文に失敗しました。店主を呼んでください。");
-}
+      if (res.ok) {
+        document.getElementById("done").style.display = "block";
+      } else {
+        alert("注文に失敗しました。店主を呼んでください。");
+      }
+    }
   </script>
 </body>
 </html>
