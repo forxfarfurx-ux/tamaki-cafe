@@ -86,14 +86,7 @@
       });
 
 if (res.ok) {
-  document.body.innerHTML = `
-    <div class="wrap">
-      <h1>☕ ご注文ありがとうございました 🐾</h1>
-      <p>たまき珈琲店に注文が届きました。</p>
-      <p>しばらくお待ちください。</p>
-      <button onclick="location.reload()">メニューに戻る</button>
-    </div>
-  `;
+  document.getElementById("done").style.display = "block";
 } else {
   alert("注文に失敗しました。店主を呼んでください。");
 }
