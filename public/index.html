@@ -1,262 +1,1052 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>たまき珈琲店</title>
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #140f12;
-      margin: 0;
-      color: #f6ead8;
+    :root {
+      --bg: #f7efe0;
+      --paper: #fffaf0;
+      --paper-strong: #fff4dc;
+      --brown: #5a3422;
+      --brown-2: #7a4b2e;
+      --brown-3: #9b6a42;
+      --line: #ead8bc;
+      --muted: #8b725e;
+      --accent: #d8a75f;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(72, 43, 23, 0.12);
+      --soft-shadow: 0 6px 16px rgba(72, 43, 23, 0.1);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
     }
-    .wrap {
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        "Hiragino Maru Gothic ProN",
+        "Yu Gothic",
+        "YuGothic",
+        system-ui,
+        sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(255, 250, 235, 0.95), rgba(247, 239, 224, 1) 55%),
+        linear-gradient(135deg, #f7efe0, #f0dfc4);
+      color: var(--brown);
+      min-height: 100vh;
+      padding-bottom: 110px;
+    }
+
+    .app {
       max-width: 520px;
       margin: 0 auto;
-      padding: 24px;
+      padding: 22px 14px 120px;
     }
-    .card {
-      background: linear-gradient(180deg, #2a1b16, #17100f);
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
-      border: 1px solid rgba(218, 176, 104, .35);
+
+    header {
+      text-align: center;
+      margin: 8px 0 18px;
+      position: relative;
     }
-    h1 {
-      font-size: 28px;
-      margin: 0 0 8px;
-      color: #f4cf88;
+
+    .shop-title {
+      font-size: 30px;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+      margin: 0;
+      color: var(--brown);
     }
-    .sub {
-      color: #d8b98b;
-      margin-bottom: 20px;
+
+    .moon {
+      font-size: 24px;
+      vertical-align: middle;
+      margin-left: 4px;
     }
-    .menu-note {
-      background: rgba(255, 244, 223, .1);
-      border: 1px solid rgba(244, 207, 136, .25);
-      border-radius: 16px;
-      padding: 12px;
-      margin: 18px 0;
-      line-height: 1.7;
-      color: #f3dfc1;
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.08em;
     }
-    .menu-list {
-      background: rgba(255,255,255,.06);
-      border-radius: 16px;
-      padding: 12px;
-      margin: 18px 0;
-      line-height: 1.8;
-      font-size: 15px;
-    }
-    label {
-      display: block;
-      font-weight: 700;
-      margin-top: 18px;
-      margin-bottom: 8px;
-      color: #f4cf88;
-    }
-    select, textarea {
-      width: 100%;
-      box-sizing: border-box;
-      font-size: 17px;
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid #7d5a34;
-      background: #fffdf9;
-      color: #3a2a1d;
-    }
-    textarea {
-      min-height: 88px;
-      resize: vertical;
-    }
-    button {
-      width: 100%;
-      border: none;
-      margin-top: 22px;
-      padding: 16px;
+
+    .tiny-note {
+      margin: 12px auto 0;
+      padding: 8px 12px;
+      display: inline-block;
+      border: 1px dashed var(--line);
       border-radius: 999px;
-      background: #b47a32;
-      color: white;
-      font-size: 18px;
+      background: rgba(255, 250, 240, 0.7);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .section {
+      margin-top: 18px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 800;
+      font-size: 16px;
+      margin: 0 0 10px;
+      color: var(--brown);
+    }
+
+    .section-title small {
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 12px;
+      margin-left: auto;
+    }
+
+    .featured-card,
+    .drink-card,
+    .display-card,
+    .secret-card {
+      background: rgba(255, 250, 240, 0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+    }
+
+    .featured-card {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 42% 1fr;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--brown);
+      color: #fff8ec;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 9px;
+      border-radius: 999px;
+      box-shadow: 0 4px 10px rgba(72, 43, 23, 0.18);
+      z-index: 2;
+    }
+
+    .menu-img-wrap {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #f5e8d0;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(234, 216, 188, 0.85);
+      position: relative;
+    }
+
+    .menu-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-fallback {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.4), rgba(245,232,208,0.8));
+    }
+
+    .menu-img-wrap.missing .image-fallback {
+      display: flex;
+    }
+
+    .menu-img-wrap.missing img {
+      display: none;
+    }
+
+    .menu-name {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.2;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--brown);
+    }
+
+    .menu-name-ja {
+      margin: 3px 0 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--brown-2);
+    }
+
+    .desc {
+      margin: 0 0 12px;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #654936;
+    }
+
+    .price {
+      font-weight: 900;
+      color: var(--brown);
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .select-btn,
+    .order-btn,
+    .pill-btn,
+    .mini-btn {
+      border: none;
+      background: var(--brown);
+      color: #fff8ec;
+      border-radius: 999px;
       font-weight: 800;
       cursor: pointer;
+      box-shadow: 0 4px 10px rgba(72, 43, 23, 0.18);
+      transition: transform 0.12s ease, opacity 0.12s ease, background 0.12s ease;
     }
-    button:active {
+
+    .select-btn {
+      padding: 9px 18px;
+      font-size: 14px;
+      min-width: 92px;
+    }
+
+    .select-btn:active,
+    .order-btn:active,
+    .pill-btn:active,
+    .mini-btn:active {
       transform: translateY(1px);
     }
-    button:disabled {
-      background: #76685b;
-      cursor: not-allowed;
+
+    .select-btn.selected,
+    .pill-btn.selected {
+      background: var(--accent);
+      color: var(--brown);
     }
-    .spell {
-      display: none;
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(244, 207, 136, .25);
-      line-height: 1.7;
-      color: #ffe6b3;
-      font-weight: 700;
+
+    .drink-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
     }
-    .done {
-      display: none;
-      margin-top: 18px;
-      padding: 16px;
-      border-radius: 16px;
-      background: #e9ffe6;
-      color: #285b24;
-      font-weight: 700;
-      line-height: 1.7;
+
+    .drink-card {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
-    .tiny {
+
+    .drink-card .menu-name {
+      font-size: 17px;
+    }
+
+    .drink-card .desc {
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .drink-card .select-btn {
+      padding: 8px 12px;
       font-size: 13px;
-      color: #b89b76;
-      margin-top: 18px;
-      text-align: center;
+      width: 100%;
+    }
+
+    .selected-panel {
+      margin-top: 14px;
+      background: rgba(255, 250, 240, 0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .selected-title {
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .option-group {
+      margin-top: 12px;
+    }
+
+    .option-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--brown);
+      margin-bottom: 8px;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn {
+      padding: 8px 12px;
+      font-size: 13px;
+      background: #ead8bc;
+      color: var(--brown);
+      box-shadow: none;
+      border: 1px solid #dfc7a5;
+    }
+
+    .pill-btn.selected {
+      background: var(--brown);
+      color: #fff8ec;
+      border-color: var(--brown);
+      box-shadow: 0 4px 10px rgba(72, 43, 23, 0.14);
+    }
+
+    .option-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 8px 0 0;
+      line-height: 1.55;
+    }
+
+    .display-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .display-card {
+      padding: 8px;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .display-illustration {
+      width: 100%;
+      aspect-ratio: 1 / 0.8;
+      border-radius: var(--radius-sm);
+      background: #f3e3c9;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      border: 1px solid rgba(234, 216, 188, 0.95);
+    }
+
+    .display-name {
+      font-size: 13px;
+      font-weight: 900;
+      margin: 0;
+      color: var(--brown);
+    }
+
+    .display-desc {
+      font-size: 10.5px;
+      line-height: 1.45;
+      color: #6e5544;
+      margin: 0;
+    }
+
+    .display-badge {
+      align-self: flex-start;
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      color: var(--brown);
+      background: #f1dfbf;
+      font-weight: 900;
+    }
+
+    .secret-card {
+      padding: 12px;
+      background:
+        linear-gradient(135deg, rgba(255, 250, 240, 0.96), rgba(246, 228, 198, 0.9));
+      border-style: dashed;
+    }
+
+    .secret-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .secret-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .mini-btn {
+      padding: 7px 12px;
+      font-size: 12px;
+      background: var(--brown-2);
+    }
+
+    .secret-body {
+      display: none;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+    }
+
+    .secret-body.open {
+      display: block;
+    }
+
+    .secret-item {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .secret-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      background: #f3e3c9;
+      border-radius: 15px;
+      font-size: 29px;
+      border: 1px solid rgba(234, 216, 188, 0.95);
+    }
+
+    .secret-item h4 {
+      margin: 0 0 4px;
+      font-size: 14px;
+    }
+
+    .secret-item p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .bottom-bar {
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      width: min(520px, calc(100% - 22px));
+      background: rgba(255, 250, 240, 0.96);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 11px;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .summary-main {
+      min-width: 0;
+    }
+
+    .summary-label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 2px;
+      font-weight: 700;
+    }
+
+    .summary-text {
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--brown);
+    }
+
+    .summary-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .order-btn {
+      padding: 12px 18px;
+      font-size: 15px;
+      min-width: 104px;
+      background: var(--brown);
+    }
+
+    .order-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .message {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      display: none;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.success {
+      background: #f3ead8;
+      color: var(--brown);
+      border: 1px solid #e5cfaa;
+    }
+
+    .message.error {
+      background: #fff0ef;
+      color: #8a2f25;
+      border: 1px solid #efc1bb;
+    }
+
+    .footer-space {
+      height: 18px;
+    }
+
+    @media (max-width: 430px) {
+      .app {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .shop-title {
+        font-size: 26px;
+      }
+
+      .featured-card {
+        grid-template-columns: 39% 1fr;
+        gap: 10px;
+      }
+
+      .menu-name {
+        font-size: 18px;
+      }
+
+      .desc {
+        font-size: 12px;
+      }
+
+      .display-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .display-card {
+        min-height: 145px;
+      }
+
+      .summary-row {
+        grid-template-columns: 1fr auto;
+      }
+
+      .order-btn {
+        min-width: 92px;
+        padding: 11px 14px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1>☕ たまき珈琲店</h1>
-      <div class="sub">台所支店・夜の小さな注文所</div>
+  <main class="app">
+    <header>
+      <h1 class="shop-title">たまき珈琲店 <span class="moon">☾</span></h1>
+      <p class="subtitle">小さな夜カフェへ、ようこそ</p>
+      <p class="tiny-note">本日も、店長はやや気まぐれです。</p>
+    </header>
 
-      <div class="menu-note">
-        店長が気まぐれに確認します。<br>
-        たまき成分は予告なく付属します。
+    <section class="section" aria-labelledby="drink-section-title">
+      <h2 id="drink-section-title" class="section-title">
+        ★ おすすめドリンク
+        <small>注文できます</small>
+      </h2>
+
+      <article class="featured-card" id="card-tamaki-blend">
+        <span class="badge">おすすめ</span>
+        <div class="menu-img-wrap">
+          <img
+            src="/images/tamaki-blend.png"
+            alt="たまきブレンドのイラスト"
+            onerror="markImageMissing(this)"
+          />
+          <div class="image-fallback">たまき<br />ブレンド</div>
+        </div>
+
+        <div>
+          <h3 class="menu-name">Tamaki Blend</h3>
+          <div class="menu-name-ja">たまきブレンド</div>
+          <p class="desc">やさしい苦みと香ばしさの、夜に寄り添う一杯。</p>
+          <div class="price">100 TAMA</div>
+          <button class="select-btn" type="button" onclick="selectDrink('tamaki-blend')">
+            選ぶ ＞
+          </button>
+        </div>
+      </article>
+
+      <div class="drink-grid">
+        <article class="drink-card" id="card-tsukimachi-latte">
+          <div class="menu-img-wrap">
+            <img
+              src="/images/tsukimachi-latte.png"
+              alt="月待ちラテのイラスト"
+              onerror="markImageMissing(this)"
+            />
+            <div class="image-fallback">月待ち<br />ラテ</div>
+          </div>
+          <div>
+            <h3 class="menu-name">Tsukimachi Latte</h3>
+            <div class="menu-name-ja">月待ちラテ</div>
+            <p class="desc">月を見上げるような、やさしい甘さのラテ。</p>
+            <div class="price">120 TAMA</div>
+            <button class="select-btn" type="button" onclick="selectDrink('tsukimachi-latte')">
+              選ぶ ＞
+            </button>
+          </div>
+        </article>
+
+        <article class="drink-card" id="card-tamaki-milk-latte">
+          <div class="menu-img-wrap">
+            <img
+              src="/images/tamaki-milk-latte.png"
+              alt="たまきミルクラテのイラスト"
+              onerror="markImageMissing(this)"
+            />
+            <div class="image-fallback">ミルク<br />ラテ</div>
+          </div>
+          <div>
+            <h3 class="menu-name">Milk Latte</h3>
+            <div class="menu-name-ja">たまきミルクラテ</div>
+            <p class="desc">まろやかなミルクの甘みで、ほっとする一杯。</p>
+            <div class="price">120 TAMA</div>
+            <button class="select-btn" type="button" onclick="selectDrink('tamaki-milk-latte')">
+              選ぶ ＞
+            </button>
+          </div>
+        </article>
       </div>
 
-      <div class="menu-list">
-        <strong>本日のメニュー</strong><br>
-        たまきブレンド　100 TAMA<br>
-        月あかりラテ　300 TAMA<br>
-        たまきミルクラテ　300 TAMA<br>
-        気まぐれ甘味　300 TAMA<br>
-        予約ソーセージ　500 TAMA
+      <div class="selected-panel" id="selectedPanel">
+        <p class="selected-title" id="selectedTitle">まずはドリンクを選んでください。</p>
+
+        <div class="option-group">
+          <span class="option-label">温度</span>
+          <div class="pill-row">
+            <button class="pill-btn selected" type="button" data-temp="hot" onclick="setTemperature('hot')">
+              ホット
+            </button>
+            <button class="pill-btn" type="button" data-temp="ice" onclick="setTemperature('ice')">
+              アイス
+            </button>
+          </div>
+        </div>
+
+        <div class="option-group" id="latteArtGroup" style="display: none;">
+          <span class="option-label">月待ちラテ専用オプション</span>
+          <div class="pill-row">
+            <button class="pill-btn selected" type="button" data-art="none" onclick="setLatteArt('none')">
+              なし
+            </button>
+            <button class="pill-btn" type="button" data-art="latte-art" onclick="setLatteArt('latte-art')">
+              ラテアート
+            </button>
+            <button class="pill-btn" type="button" data-art="3d-latte-art" onclick="setLatteArt('3d-latte-art')">
+              3Dラテアート
+            </button>
+          </div>
+          <p class="option-note">
+            ※ ラテアートは月待ちラテだけの特別演出です。店長の機嫌により月が丸くなったり丸くならなかったりします。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="sweets-section-title">
+      <h2 id="sweets-section-title" class="section-title">
+        🍮 甘味
+        <small>展示メニュー</small>
+      </h2>
+
+      <div class="display-grid">
+        <article class="display-card">
+          <div class="display-illustration">🍮</div>
+          <span class="display-badge">見るだけ</span>
+          <h3 class="display-name">夜ふかしプリン</h3>
+          <p class="display-desc">昔ながらの、ぷるんと甘い妄想プリン。</p>
+        </article>
+
+        <article class="display-card">
+          <div class="display-illustration">🥞</div>
+          <span class="display-badge">見るだけ</span>
+          <h3 class="display-name">月明かりホットケーキ</h3>
+          <p class="display-desc">ふんわり積まれた、夢の重層建築。</p>
+        </article>
+
+        <article class="display-card">
+          <div class="display-illustration">🍰</div>
+          <span class="display-badge">見るだけ</span>
+          <h3 class="display-name">ごほうびケーキ</h3>
+          <p class="display-desc">本日は絵での提供となります。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="food-section-title">
+      <h2 id="food-section-title" class="section-title">
+        🍴 軽食
+        <small>展示メニュー</small>
+      </h2>
+
+      <div class="display-grid">
+        <article class="display-card">
+          <div class="display-illustration">🍞</div>
+          <span class="display-badge">見るだけ</span>
+          <h3 class="display-name">こんがりトースト</h3>
+          <p class="display-desc">サクッと香ばしい予定だった一枚。</p>
+        </article>
+
+        <article class="display-card">
+          <div class="display-illustration">🥪</div>
+          <span class="display-badge">見るだけ</span>
+          <h3 class="display-name">たまごサンド</h3>
+          <p class="display-desc">やさしい味を想像でお楽しみください。</p>
+        </article>
+
+        <article class="display-card">
+          <div class="display-illustration">🍝</div>
+          <span class="display-badge">見るだけ</span>
+          <h3 class="display-name">喫茶ナポリタン</h3>
+          <p class="display-desc">昭和の湯気だけ先に到着しました。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="secret-section-title">
+      <h2 id="secret-section-title" class="section-title">
+        🕯 裏メニュー
+        <small>観賞用</small>
+      </h2>
+
+      <article class="secret-card">
+        <div class="secret-head">
+          <h3 class="secret-title">店長が目をそらした時だけ開く棚</h3>
+          <button class="mini-btn" type="button" onclick="toggleSecret()">のぞく</button>
+        </div>
+
+        <div class="secret-body" id="secretBody">
+          <div class="secret-item">
+            <div class="secret-icon">🌭</div>
+            <div>
+              <h4>オレのそーせーじ</h4>
+              <p>
+                ひっそり存在する謎の裏メニュー。現在は観賞用です。
+                注文できそうな顔をしていますが、まだ厨房がざわついています。
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div class="footer-space"></div>
+  </main>
+
+  <div class="bottom-bar" aria-live="polite">
+    <div class="summary-row">
+      <div class="summary-main">
+        <span class="summary-label">選択中</span>
+        <div class="summary-text" id="summaryText">まだドリンクが選ばれていません</div>
+        <div class="summary-sub" id="summarySub">ドリンクを1つ選ぶと注文できます</div>
       </div>
 
-      <label>メニュー</label>
-      <select id="item">
-        <option value="たまきブレンド" data-price="100">たまきブレンド　100 TAMA</option>
-        <option value="月あかりラテ" data-price="300">月あかりラテ　300 TAMA</option>
-        <option value="たまきミルクラテ" data-price="300">たまきミルクラテ　300 TAMA</option>
-        <option value="気まぐれ甘味" data-price="300">気まぐれ甘味　300 TAMA</option>
-        <option value="予約ソーセージ" data-price="500">予約ソーセージ　500 TAMA</option>
-      </select>
-
-      <label>温度</label>
-      <select id="temperature">
-        <option>ホット</option>
-        <option>アイス</option>
-        <option>なし</option>
-      </select>
-
-      <label>砂糖</label>
-      <select id="sugar">
-        <option>なし</option>
-        <option>シュガー</option>
-        <option>シュガー多め</option>
-      </select>
-
-      <label>ラテアート</label>
-      <select id="latteArt">
-        <option>なし</option>
-        <option>ラテアート</option>
-      </select>
-
-      <label>たまき添え</label>
-      <select id="tamaki">
-        <option>たまき添え</option>
-        <option>なし</option>
-      </select>
-
-      <label>ひとこと</label>
-      <textarea id="note" placeholder="例：急ぎでお願いします / 今日はやさしめで"></textarea>
-
-      <button id="orderButton" onclick="sendOrder()">注文する</button>
-
-      <div id="spell" class="spell"></div>
-
-      <div id="done" class="done">
-        注文を送信しました。<br>
-        たまき店長が気まぐれに準備中です。
-      </div>
-
-      <div class="tiny">tama_cafe v0.3</div>
+      <button class="order-btn" id="orderButton" type="button" onclick="submitOrder()" disabled>
+        注文へ
+      </button>
     </div>
+
+    <div class="message" id="messageBox"></div>
   </div>
 
   <script>
-    function pickRandomEffect() {
-      const effects = [
-        "夜ふかし仕様",
-        "二日酔い対策",
-        "ねむねむ仕様",
-        "店長ごきげん仕様",
-        "月光補正",
-        "ぽかぽか強化",
-        "猫圧強め",
-        "肉球監修",
-        "秘密の深夜補正"
-      ];
-      return effects[Math.floor(Math.random() * effects.length)];
-    }
+    const API_ENDPOINT = "/api/order";
 
-    function buildSpell(item, temperature, sugar, latteArt, tamaki, effect) {
-      return item + temperature + sugar + latteArt + tamaki + effect;
-    }
+    const drinks = {
+      "tamaki-blend": {
+        id: "tamaki-blend",
+        name: "たまきブレンド",
+        englishName: "Tamaki Blend",
+        price: 100
+      },
+      "tsukimachi-latte": {
+        id: "tsukimachi-latte",
+        name: "月待ちラテ",
+        englishName: "Tsukimachi Latte",
+        price: 120
+      },
+      "tamaki-milk-latte": {
+        id: "tamaki-milk-latte",
+        name: "たまきミルクラテ",
+        englishName: "Milk Latte",
+        price: 120
+      }
+    };
 
-    async function sendOrder() {
-      const itemSelect = document.getElementById("item");
-      const selectedOption = itemSelect.options[itemSelect.selectedIndex];
+    const state = {
+      selectedDrinkId: null,
+      temperature: "hot",
+      latteArt: "none",
+      sending: false,
+      completed: false
+    };
 
-      const item = selectedOption.value;
-      const price = selectedOption.dataset.price;
-      const temperature = document.getElementById("temperature").value;
-      const sugar = document.getElementById("sugar").value;
-      const latteArt = document.getElementById("latteArt").value;
-      const tamaki = document.getElementById("tamaki").value;
-      const note = document.getElementById("note").value;
-      const effect = pickRandomEffect();
-      const spell = buildSpell(item, temperature, sugar, latteArt, tamaki, effect);
-
-      const order = {
-        item: spell,
-        size: price + " TAMA",
-        sugar: sugar,
-        milk: latteArt + " / " + tamaki,
-        note: "元の注文：" + item + "\n温度：" + temperature + "\n価格：" + price + " TAMA\n付与効果：" + effect + "\nひとこと：" + note
-      };
-
-      const button = document.getElementById("orderButton");
-      button.disabled = true;
-      button.textContent = "送信中です…";
-
-      const res = await fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(order)
-      });
-
-      if (res.ok) {
-        document.getElementById("spell").innerHTML =
-          "☕ ご注文の呪文<br><br>" +
-          spell +
-          "<br><br>" +
-          price + " TAMA<br>" +
-          "付与効果：" + effect;
-        document.getElementById("spell").style.display = "block";
-        document.getElementById("done").style.display = "block";
-        button.textContent = "注文済みです";
-      } else {
-        button.disabled = false;
-        button.textContent = "注文する";
-        alert("注文に失敗しました。店主を呼んでください。");
+    function markImageMissing(img) {
+      const wrap = img.closest(".menu-img-wrap");
+      if (wrap) {
+        wrap.classList.add("missing");
       }
     }
+
+    function selectDrink(id) {
+      state.selectedDrinkId = id;
+      state.completed = false;
+      state.sending = false;
+
+      if (id !== "tsukimachi-latte") {
+        state.latteArt = "none";
+      }
+
+      updateUI();
+      showMessage("", "");
+    }
+
+    function setTemperature(temp) {
+      state.temperature = temp;
+      state.completed = false;
+      updateUI();
+      showMessage("", "");
+    }
+
+    function setLatteArt(art) {
+      state.latteArt = art;
+      state.completed = false;
+      updateUI();
+      showMessage("", "");
+    }
+
+    function toggleSecret() {
+      const body = document.getElementById("secretBody");
+      body.classList.toggle("open");
+    }
+
+    function getTemperatureLabel() {
+      return state.temperature === "ice" ? "アイス" : "ホット";
+    }
+
+    function getLatteArtLabel() {
+      if (state.selectedDrinkId !== "tsukimachi-latte") return "";
+      if (state.latteArt === "latte-art") return "ラテアート";
+      if (state.latteArt === "3d-latte-art") return "3Dラテアート";
+      return "ラテアートなし";
+    }
+
+    function getSelectedDrink() {
+      if (!state.selectedDrinkId) return null;
+      return drinks[state.selectedDrinkId];
+    }
+
+    function getOrderText() {
+      const drink = getSelectedDrink();
+      if (!drink) return "";
+
+      const parts = [
+        drink.name,
+        getTemperatureLabel()
+      ];
+
+      if (state.selectedDrinkId === "tsukimachi-latte") {
+        parts.push(getLatteArtLabel());
+      }
+
+      return parts.filter(Boolean).join(" / ");
+    }
+
+    function updateUI() {
+      const drink = getSelectedDrink();
+
+      document.querySelectorAll(".select-btn").forEach((btn) => {
+        btn.classList.remove("selected");
+        btn.textContent = "選ぶ ＞";
+      });
+
+      if (drink) {
+        const selectedCard = document.getElementById("card-" + drink.id);
+        if (selectedCard) {
+          const btn = selectedCard.querySelector(".select-btn");
+          if (btn) {
+            btn.classList.add("selected");
+            btn.textContent = "選択中";
+          }
+        }
+      }
+
+      document.querySelectorAll("[data-temp]").forEach((btn) => {
+        btn.classList.toggle("selected", btn.dataset.temp === state.temperature);
+      });
+
+      document.querySelectorAll("[data-art]").forEach((btn) => {
+        btn.classList.toggle("selected", btn.dataset.art === state.latteArt);
+      });
+
+      const latteArtGroup = document.getElementById("latteArtGroup");
+      latteArtGroup.style.display = state.selectedDrinkId === "tsukimachi-latte" ? "block" : "none";
+
+      const selectedTitle = document.getElementById("selectedTitle");
+      const summaryText = document.getElementById("summaryText");
+      const summarySub = document.getElementById("summarySub");
+      const orderButton = document.getElementById("orderButton");
+
+      if (!drink) {
+        selectedTitle.textContent = "まずはドリンクを選んでください。";
+        summaryText.textContent = "まだドリンクが選ばれていません";
+        summarySub.textContent = "ドリンクを1つ選ぶと注文できます";
+        orderButton.disabled = true;
+        return;
+      }
+
+      selectedTitle.textContent = drink.name + " の設定";
+      summaryText.textContent = getOrderText();
+      summarySub.textContent = "合計 " + drink.price + " TAMA";
+      orderButton.disabled = state.sending || state.completed;
+      orderButton.textContent = state.completed ? "送信済み" : state.sending ? "送信中…" : "注文へ";
+    }
+
+    function showMessage(type, text) {
+      const box = document.getElementById("messageBox");
+
+      box.className = "message";
+      box.textContent = "";
+
+      if (!type || !text) return;
+
+      box.classList.add("show", type);
+      box.textContent = text;
+    }
+
+    function createOrderId() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, "0");
+      const d = String(now.getDate()).padStart(2, "0");
+      const h = String(now.getHours()).padStart(2, "0");
+      const min = String(now.getMinutes()).padStart(2, "0");
+      const s = String(now.getSeconds()).padStart(2, "0");
+      const rand = Math.floor(Math.random() * 900 + 100);
+      return `TAMA-${y}${m}${d}-${h}${min}${s}-${rand}`;
+    }
+
+    async function submitOrder() {
+      const drink = getSelectedDrink();
+      if (!drink || state.sending || state.completed) return;
+
+      state.sending = true;
+      updateUI();
+      showMessage("", "");
+
+      const orderId = createOrderId();
+      const orderText = getOrderText();
+
+      const payload = {
+        orderId,
+        item: drink.name,
+        englishName: drink.englishName,
+        temperature: getTemperatureLabel(),
+        latteArt: state.selectedDrinkId === "tsukimachi-latte" ? getLatteArtLabel() : "",
+        price: drink.price,
+        total: drink.price,
+        orderText,
+        message: `【たまき珈琲店】注文が入りました\n注文番号：${orderId}\n内容：${orderText}\n合計：${drink.price} TAMA`,
+        timestamp: new Date().toISOString(),
+        items: [
+          {
+            id: drink.id,
+            name: drink.name,
+            temperature: getTemperatureLabel(),
+            latteArt: state.selectedDrinkId === "tsukimachi-latte" ? getLatteArtLabel() : "",
+            price: drink.price
+          }
+        ]
+      };
+
+      try {
+        const response = await fetch(API_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error("注文送信に失敗しました");
+        }
+
+        state.completed = true;
+        showMessage(
+          "success",
+          "注文を送信しました。たまき店長が気づいたら準備に入ります。二重注文防止のため、この注文ボタンは止まりました。"
+        );
+      } catch (error) {
+        console.error(error);
+        state.completed = false;
+        showMessage(
+          "error",
+          "注文を送信できませんでした。VercelがReadyか、Discord通知が届く設定か確認してください。"
+        );
+      } finally {
+        state.sending = false;
+        updateUI();
+      }
+    }
+
+    updateUI();
   </script>
 </body>
 </html>
