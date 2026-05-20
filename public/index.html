@@ -97,7 +97,7 @@
 
     .featured-card,
     .drink-card,
-    .display-card,
+    .menu-card,
     .secret-card {
       background: rgba(255, 250, 240, 0.92);
       border: 1px solid var(--line);
@@ -121,6 +121,16 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      transition: box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .menu-card {
+      padding: 10px;
+      min-height: unset;
+      display: grid;
+      grid-template-columns: 42% 1fr;
+      gap: 10px;
+      align-items: center;
       transition: box-shadow 0.15s ease, border-color 0.15s ease;
     }
 
@@ -153,6 +163,11 @@
       overflow: hidden;
       border: 1px solid rgba(234, 216, 188, 0.85);
       position: relative;
+    }
+
+    .menu-card .menu-img-wrap,
+    .secret-item .menu-img-wrap {
+      aspect-ratio: 1 / 0.82;
     }
 
     .menu-img-wrap img {
@@ -230,7 +245,8 @@
       min-width: 92px;
     }
 
-    .drink-card .select-btn {
+    .drink-card .select-btn,
+    .menu-card .select-btn {
       padding: 8px 12px;
       font-size: 13px;
       width: 100%;
@@ -258,6 +274,47 @@
     .drink-card .menu-name { font-size: 17px; }
     .drink-card .desc {
       font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .item-info { min-width: 0; }
+
+    .item-title {
+      font-size: 15px;
+      font-weight: 900;
+      margin: 0 0 5px;
+      color: var(--brown);
+      line-height: 1.35;
+    }
+
+    .item-desc {
+      font-size: 11.5px;
+      line-height: 1.55;
+      color: #6e5544;
+      margin: 0 0 7px;
+    }
+
+    .item-price {
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--brown);
+      margin: 0 0 8px;
+    }
+
+    .item-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      color: var(--brown);
+      background: #f1dfbf;
+      font-weight: 900;
       margin-bottom: 6px;
     }
 
@@ -313,65 +370,6 @@
       line-height: 1.55;
     }
 
-    .display-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-
-    .display-card {
-      padding: 10px;
-      min-height: unset;
-      display: grid;
-      grid-template-columns: 42% 1fr;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .display-card .menu-img-wrap {
-      border-radius: var(--radius-md);
-      aspect-ratio: 1 / 0.82;
-    }
-
-    .display-card .menu-img-wrap img {
-      object-fit: cover;
-    }
-
-    .display-info { min-width: 0; }
-
-    .display-name {
-      font-size: 15px;
-      font-weight: 900;
-      margin: 0 0 5px;
-      color: var(--brown);
-      line-height: 1.35;
-    }
-
-    .display-desc {
-      font-size: 11.5px;
-      line-height: 1.55;
-      color: #6e5544;
-      margin: 0 0 7px;
-    }
-
-    .display-price {
-      font-size: 12px;
-      font-weight: 900;
-      color: var(--brown);
-      margin: 0;
-    }
-
-    .display-badge {
-      display: inline-block;
-      font-size: 10px;
-      padding: 3px 7px;
-      border-radius: 999px;
-      color: var(--brown);
-      background: #f1dfbf;
-      font-weight: 900;
-      margin-bottom: 6px;
-    }
-
     .secret-card {
       padding: 12px;
       background: linear-gradient(135deg, rgba(255, 250, 240, 0.96), rgba(246, 228, 198, 0.9));
@@ -411,11 +409,6 @@
       grid-template-columns: 92px 1fr;
       gap: 10px;
       align-items: center;
-    }
-
-    .secret-item .menu-img-wrap {
-      aspect-ratio: 1 / 0.82;
-      border-radius: 15px;
     }
 
     .secret-item h4 {
@@ -534,13 +527,13 @@
       .menu-name { font-size: 18px; }
       .desc { font-size: 12px; }
 
-      .display-card {
+      .menu-card {
         grid-template-columns: 40% 1fr;
         gap: 9px;
       }
 
-      .display-name { font-size: 14px; }
-      .display-desc { font-size: 11px; }
+      .item-title { font-size: 14px; }
+      .item-desc { font-size: 11px; }
 
       .order-btn {
         min-width: 92px;
@@ -560,14 +553,14 @@
 
     <section class="section" aria-labelledby="drink-section-title">
       <h2 id="drink-section-title" class="section-title">
-        ★ おすすめドリンク
+        ☕ ドリンク
         <small>注文できます</small>
       </h2>
 
-      <article class="featured-card drink-select-card" id="card-tamaki-blend">
+      <article class="featured-card order-select-card" id="card-tamaki_blend">
         <span class="badge">おすすめ</span>
         <div class="menu-img-wrap">
-          <img src="/images/tamaki-blend.png" alt="たまきブレンドのイラスト" onerror="markImageMissing(this)" />
+          <img src="/images/tamaki_blend.png" alt="たまきブレンドのイラスト" onerror="markImageMissing(this)" />
           <div class="image-fallback">たまき<br />ブレンド</div>
         </div>
 
@@ -576,10 +569,10 @@
           <div class="menu-name-ja">たまきブレンド</div>
           <p class="desc">やさしい苦みと香ばしさの、夜に寄り添う一杯。</p>
           <div class="price">100 TAMA</div>
-          <button class="select-btn" type="button" onclick="selectDrink('tamaki-blend')">選ぶ ＞</button>
+          <button class="select-btn" type="button" onclick="selectItem('tamaki_blend')">選ぶ ＞</button>
         </div>
 
-        <div class="inline-options" id="options-tamaki-blend">
+        <div class="inline-options" id="options-tamaki_blend">
           <div class="option-group">
             <span class="option-label">温度を選んでください</span>
             <div class="pill-row">
@@ -591,9 +584,9 @@
       </article>
 
       <div class="drink-grid">
-        <article class="drink-card drink-select-card" id="card-tsukimachi-latte">
+        <article class="drink-card order-select-card" id="card-tsukimachi_latte">
           <div class="menu-img-wrap">
-            <img src="/images/tsukimachi-latte.png" alt="月待ちラテのイラスト" onerror="markImageMissing(this)" />
+            <img src="/images/tsukimachi_latte.png" alt="月待ちラテのイラスト" onerror="markImageMissing(this)" />
             <div class="image-fallback">月待ち<br />ラテ</div>
           </div>
 
@@ -602,10 +595,10 @@
             <div class="menu-name-ja">月待ちラテ</div>
             <p class="desc">月を見上げるような、やさしい甘さのラテ。</p>
             <div class="price">300 TAMA</div>
-            <button class="select-btn" type="button" onclick="selectDrink('tsukimachi-latte')">選ぶ ＞</button>
+            <button class="select-btn" type="button" onclick="selectItem('tsukimachi_latte')">選ぶ ＞</button>
           </div>
 
-          <div class="inline-options" id="options-tsukimachi-latte">
+          <div class="inline-options" id="options-tsukimachi_latte">
             <div class="option-group">
               <span class="option-label">温度を選んでください</span>
               <div class="pill-row">
@@ -618,17 +611,17 @@
               <span class="option-label">ラテアートを選んでください</span>
               <div class="pill-row">
                 <button class="pill-btn" type="button" data-art="none" onclick="setLatteArt('none')">なし</button>
-                <button class="pill-btn" type="button" data-art="latte-art" onclick="setLatteArt('latte-art')">ラテアート</button>
-                <button class="pill-btn" type="button" data-art="3d-latte-art" onclick="setLatteArt('3d-latte-art')">3Dラテアート</button>
+                <button class="pill-btn" type="button" data-art="latte_art" onclick="setLatteArt('latte_art')">ラテアート</button>
+                <button class="pill-btn" type="button" data-art="3d_latte_art" onclick="setLatteArt('3d_latte_art')">3Dラテアート</button>
               </div>
               <p class="option-note">※ 3Dラテアートを選ぶと、月待ちラテは500 TAMAになります。</p>
             </div>
           </div>
         </article>
 
-        <article class="drink-card drink-select-card" id="card-tamaki-milk-latte">
+        <article class="drink-card order-select-card" id="card-tamaki_milk_latte">
           <div class="menu-img-wrap">
-            <img src="/images/tamaki-milk-latte.png" alt="たまきミルクラテのイラスト" onerror="markImageMissing(this)" />
+            <img src="/images/tamaki_milk_latte.png" alt="たまきミルクラテのイラスト" onerror="markImageMissing(this)" />
             <div class="image-fallback">ミルク<br />ラテ</div>
           </div>
 
@@ -637,10 +630,10 @@
             <div class="menu-name-ja">たまきミルクラテ</div>
             <p class="desc">まろやかなミルクの甘みで、ほっとする一杯。</p>
             <div class="price">300 TAMA</div>
-            <button class="select-btn" type="button" onclick="selectDrink('tamaki-milk-latte')">選ぶ ＞</button>
+            <button class="select-btn" type="button" onclick="selectItem('tamaki_milk_latte')">選ぶ ＞</button>
           </div>
 
-          <div class="inline-options" id="options-tamaki-milk-latte">
+          <div class="inline-options" id="options-tamaki_milk_latte">
             <div class="option-group">
               <span class="option-label">温度を選んでください</span>
               <div class="pill-row">
@@ -654,99 +647,125 @@
     </section>
 
     <section class="section" aria-labelledby="sweets-section-title">
-      <h2 id="sweets-section-title" class="section-title">🍮 甘味 <small>展示メニュー</small></h2>
+      <h2 id="sweets-section-title" class="section-title">🍮 甘味 <small>注文できます</small></h2>
 
-      <div class="display-grid">
-        <article class="display-card">
+      <div class="menu-grid">
+        <article class="menu-card order-select-card" id="card-yorufukashi_pudding">
           <div class="menu-img-wrap">
-            <img src="/images/yorufukashi-pudding.png" alt="夜更かしプリンのイラスト" onerror="markImageMissing(this)" />
+            <img src="/images/yorufukashi_pudding.png" alt="夜更かしプリンのイラスト" onerror="markImageMissing(this)" />
             <div class="image-fallback">夜更かし<br />プリン</div>
           </div>
-          <div class="display-info">
-            <span class="display-badge">見るだけ</span>
-            <h3 class="display-name">夜更かしプリン</h3>
-            <p class="display-desc">猫型の型で作る、ちょっと固めの夜プリン。</p>
-            <p class="display-price">300 TAMA</p>
+          <div class="item-info">
+            <span class="item-badge">甘味</span>
+            <h3 class="item-title">夜更かしプリン</h3>
+            <p class="item-desc">猫型の型で作る、ちょっと固めの夜プリン。</p>
+            <p class="item-price">300 TAMA</p>
+            <button class="select-btn" type="button" onclick="selectItem('yorufukashi_pudding')">選ぶ ＞</button>
           </div>
         </article>
 
-        <article class="display-card">
+        <article class="menu-card order-select-card" id="card-tsukiakari_hotcake">
           <div class="menu-img-wrap">
-            <img src="/images/tsukiakari-hotcake.png" alt="月あかりホットケーキのイラスト" onerror="markImageMissing(this)" />
+            <img src="/images/tsukiakari_hotcake.png" alt="月あかりホットケーキのイラスト" onerror="markImageMissing(this)" />
             <div class="image-fallback">月あかり<br />ホットケーキ</div>
           </div>
-          <div class="display-info">
-            <span class="display-badge">見るだけ</span>
-            <h3 class="display-name">月あかりホットケーキ</h3>
-            <p class="display-desc">月の形のバターをのせた、夜カフェのホットケーキ。</p>
-            <p class="display-price">1段 300 TAMA / 2段 500 TAMA</p>
+          <div class="item-info">
+            <span class="item-badge">甘味</span>
+            <h3 class="item-title">月あかりホットケーキ</h3>
+            <p class="item-desc">月の形のバターをのせた、夜カフェのホットケーキ。</p>
+            <p class="item-price">1段 300 TAMA / 2段 500 TAMA</p>
+            <button class="select-btn" type="button" onclick="selectItem('tsukiakari_hotcake')">選ぶ ＞</button>
+          </div>
+
+          <div class="inline-options" id="options-tsukiakari_hotcake">
+            <div class="option-group">
+              <span class="option-label">段数を選んでください</span>
+              <div class="pill-row">
+                <button class="pill-btn" type="button" data-stack="one" onclick="setStack('one')">1段 300 TAMA</button>
+                <button class="pill-btn" type="button" data-stack="two" onclick="setStack('two')">2段 500 TAMA</button>
+              </div>
+            </div>
           </div>
         </article>
 
-        <article class="display-card">
+        <article class="menu-card order-select-card" id="card-miichan_shortcake">
           <div class="menu-img-wrap">
-            <img src="/images/miichan-shortcake.png" alt="みーちゃんショートケーキのイラスト" onerror="markImageMissing(this)" />
+            <img src="/images/miichan_shortcake.png" alt="みーちゃんショートケーキのイラスト" onerror="markImageMissing(this)" />
             <div class="image-fallback">みーちゃん<br />ショート</div>
           </div>
-          <div class="display-info">
-            <span class="display-badge">見るだけ</span>
-            <h3 class="display-name">みーちゃんショートケーキ</h3>
-            <p class="display-desc">みーちゃんが心をこめて作る、サワークリーム入りの特別なケーキ。</p>
-            <p class="display-price">500 TAMA</p>
+          <div class="item-info">
+            <span class="item-badge">甘味</span>
+            <h3 class="item-title">みーちゃんショートケーキ</h3>
+            <p class="item-desc">みーちゃんが心をこめて作る、サワークリーム入りの特別なケーキ。</p>
+            <p class="item-price">500 TAMA</p>
+            <button class="select-btn" type="button" onclick="selectItem('miichan_shortcake')">選ぶ ＞</button>
           </div>
         </article>
       </div>
     </section>
 
     <section class="section" aria-labelledby="food-section-title">
-      <h2 id="food-section-title" class="section-title">🍴 軽食 <small>展示メニュー</small></h2>
+      <h2 id="food-section-title" class="section-title">🍴 軽食 <small>注文できます</small></h2>
 
-      <div class="display-grid">
-        <article class="display-card">
+      <div class="menu-grid">
+        <article class="menu-card order-select-card" id="card-tsukiakari_napolitan">
           <div class="menu-img-wrap">
-            <img src="/images/tsukiakari-napolitan.png" alt="月あかりナポリタンのイラスト" onerror="markImageMissing(this)" />
+            <img src="/images/tsukiakari_napolitan.png" alt="月あかりナポリタンのイラスト" onerror="markImageMissing(this)" />
             <div class="image-fallback">月あかり<br />ナポリタン</div>
           </div>
-          <div class="display-info">
-            <span class="display-badge">見るだけ</span>
-            <h3 class="display-name">月あかりナポリタン</h3>
-            <p class="display-desc">やさしいケチャップ味。鉄板にすると卵敷きのウスター仕立て。</p>
-            <p class="display-price">通常 300 TAMA / 鉄板 500 TAMA</p>
+          <div class="item-info">
+            <span class="item-badge">軽食</span>
+            <h3 class="item-title">月あかりナポリタン</h3>
+            <p class="item-desc">やさしいケチャップ味。鉄板にすると卵敷きのウスター仕立て。</p>
+            <p class="item-price">通常 300 TAMA / 鉄板 500 TAMA</p>
+            <button class="select-btn" type="button" onclick="selectItem('tsukiakari_napolitan')">選ぶ ＞</button>
+          </div>
+
+          <div class="inline-options" id="options-tsukiakari_napolitan">
+            <div class="option-group">
+              <span class="option-label">仕上げを選んでください</span>
+              <div class="pill-row">
+                <button class="pill-btn" type="button" data-plate="normal" onclick="setPlate('normal')">通常 300 TAMA</button>
+                <button class="pill-btn" type="button" data-plate="teppan" onclick="setPlate('teppan')">鉄板 500 TAMA</button>
+              </div>
+            </div>
           </div>
         </article>
 
-        <article class="display-card">
+        <article class="menu-card order-select-card" id="card-butter_chicken_curry">
           <div class="menu-img-wrap">
-            <img src="/images/butter-chicken-curry.png" alt="バターチキンカレーのイラスト" onerror="markImageMissing(this)" />
+            <img src="/images/butter_chicken_curry.png" alt="バターチキンカレーのイラスト" onerror="markImageMissing(this)" />
             <div class="image-fallback">バター<br />チキンカレー</div>
           </div>
-          <div class="display-info">
-            <span class="display-badge">見るだけ</span>
-            <h3 class="display-name">バターチキンカレー</h3>
-            <p class="display-desc">まろやかなトマトのコクと、バターの深い香り。</p>
-            <p class="display-price">500 TAMA</p>
+          <div class="item-info">
+            <span class="item-badge">軽食</span>
+            <h3 class="item-title">バターチキンカレー</h3>
+            <p class="item-desc">まろやかなトマトのコクと、バターの深い香り。</p>
+            <p class="item-price">500 TAMA</p>
+            <button class="select-btn" type="button" onclick="selectItem('butter_chicken_curry')">選ぶ ＞</button>
           </div>
         </article>
 
-        <article class="display-card">
+        <article class="menu-card order-select-card" id="card-cornedbeef_hot_sand">
           <div class="menu-img-wrap">
-            <img src="/images/cornedbeef-hot-sand.png" alt="コンビーフホットサンドのイラスト" onerror="markImageMissing(this)" />
+            <img src="/images/cornedbeef_hot_sand.png" alt="コンビーフホットサンドのイラスト" onerror="markImageMissing(this)" />
             <div class="image-fallback">コンビーフ<br />ホットサンド</div>
           </div>
-          <div class="display-info">
-            <span class="display-badge">見るだけ</span>
-            <h3 class="display-name">コンビーフホットサンド</h3>
-            <p class="display-desc">カリッと焼いたパンに、コンビーフとチーズをぎゅっと。</p>
-            <p class="display-price">800 TAMA</p>
+          <div class="item-info">
+            <span class="item-badge">軽食</span>
+            <h3 class="item-title">コンビーフホットサンド</h3>
+            <p class="item-desc">カリッと焼いたパンに、コンビーフとチーズをぎゅっと。</p>
+            <p class="item-price">800 TAMA</p>
+            <button class="select-btn" type="button" onclick="selectItem('cornedbeef_hot_sand')">選ぶ ＞</button>
           </div>
         </article>
       </div>
     </section>
 
     <section class="section" aria-labelledby="secret-section-title">
-      <h2 id="secret-section-title" class="section-title">🕯 裏メニュー <small>観賞用</small></h2>
+      <h2 id="secret-section-title" class="section-title">🕯 裏メニュー <small>注文できます</small></h2>
 
-      <article class="secret-card">
+      <article class="secret-card order-select-card" id="card-ore_no_sausage">
         <div class="secret-head">
           <h3 class="secret-title">店長が目をそらした時だけ開く棚</h3>
           <button class="mini-btn" type="button" onclick="toggleSecret()">のぞく</button>
@@ -755,13 +774,14 @@
         <div class="secret-body" id="secretBody">
           <div class="secret-item">
             <div class="menu-img-wrap">
-              <img src="/images/ore-no-sausage.png" alt="オレのそーせーじのイラスト" onerror="markImageMissing(this)" />
+              <img src="/images/ore_no_sausage.png" alt="オレのそーせーじのイラスト" onerror="markImageMissing(this)" />
               <div class="image-fallback">オレの<br />そーせーじ</div>
             </div>
             <div>
               <h4>オレのそーせーじ</h4>
               <p>ひっそり存在する謎の裏メニュー。店主に聞くと、厨房が少しざわつきます。</p>
               <p class="display-price">600 TAMA</p>
+              <button class="select-btn" type="button" onclick="selectItem('ore_no_sausage')">選ぶ ＞</button>
             </div>
           </div>
         </div>
@@ -775,8 +795,8 @@
     <div class="summary-row">
       <div class="summary-main">
         <span class="summary-label">選択中</span>
-        <div class="summary-text" id="summaryText">まだドリンクが選ばれていません</div>
-        <div class="summary-sub" id="summarySub">ドリンクを1つ選ぶと注文できます</div>
+        <div class="summary-text" id="summaryText">まだメニューが選ばれていません</div>
+        <div class="summary-sub" id="summarySub">メニューを1つ選ぶと注文できます</div>
       </div>
 
       <button class="order-btn" id="orderButton" type="button" onclick="submitOrder()" disabled>注文へ</button>
@@ -788,31 +808,25 @@
   <script>
     const API_ENDPOINT = "/api/order";
 
-    const drinks = {
-      "tamaki-blend": {
-        id: "tamaki-blend",
-        name: "たまきブレンド",
-        englishName: "Tamaki Blend",
-        price: 100
-      },
-      "tsukimachi-latte": {
-        id: "tsukimachi-latte",
-        name: "月待ちラテ",
-        englishName: "Tsukimachi Latte",
-        price: 300
-      },
-      "tamaki-milk-latte": {
-        id: "tamaki-milk-latte",
-        name: "たまきミルクラテ",
-        englishName: "Tamaki Milk Latte",
-        price: 300
-      }
+    const items = {
+      tamaki_blend: { id: "tamaki_blend", category: "drink", name: "たまきブレンド", englishName: "Tamaki Blend", price: 100 },
+      tsukimachi_latte: { id: "tsukimachi_latte", category: "drink", name: "月待ちラテ", englishName: "Tsukimachi Latte", price: 300 },
+      tamaki_milk_latte: { id: "tamaki_milk_latte", category: "drink", name: "たまきミルクラテ", englishName: "Tamaki Milk Latte", price: 300 },
+      yorufukashi_pudding: { id: "yorufukashi_pudding", category: "sweet", name: "夜更かしプリン", price: 300 },
+      tsukiakari_hotcake: { id: "tsukiakari_hotcake", category: "sweet", name: "月あかりホットケーキ", price: 300 },
+      miichan_shortcake: { id: "miichan_shortcake", category: "sweet", name: "みーちゃんショートケーキ", price: 500 },
+      tsukiakari_napolitan: { id: "tsukiakari_napolitan", category: "food", name: "月あかりナポリタン", price: 300 },
+      butter_chicken_curry: { id: "butter_chicken_curry", category: "food", name: "バターチキンカレー", price: 500 },
+      cornedbeef_hot_sand: { id: "cornedbeef_hot_sand", category: "food", name: "コンビーフホットサンド", price: 800 },
+      ore_no_sausage: { id: "ore_no_sausage", category: "secret", name: "オレのそーせーじ", price: 600 }
     };
 
     const state = {
-      selectedDrinkId: null,
+      selectedItemId: null,
       temperature: "hot",
       latteArt: "none",
+      stack: "one",
+      plate: "normal",
       sending: false,
       completed: false
     };
@@ -822,14 +836,14 @@
       if (wrap) wrap.classList.add("missing");
     }
 
-    function selectDrink(id) {
-      state.selectedDrinkId = id;
+    function selectItem(id) {
+      state.selectedItemId = id;
       state.completed = false;
       state.sending = false;
 
-      if (id !== "tsukimachi-latte") {
-        state.latteArt = "none";
-      }
+      if (id !== "tsukimachi_latte") state.latteArt = "none";
+      if (id !== "tsukiakari_hotcake") state.stack = "one";
+      if (id !== "tsukiakari_napolitan") state.plate = "normal";
 
       updateUI();
       showMessage("", "");
@@ -849,8 +863,27 @@
       showMessage("", "");
     }
 
+    function setStack(stack) {
+      state.stack = stack;
+      state.completed = false;
+      updateUI();
+      showMessage("", "");
+    }
+
+    function setPlate(plate) {
+      state.plate = plate;
+      state.completed = false;
+      updateUI();
+      showMessage("", "");
+    }
+
     function toggleSecret() {
       document.getElementById("secretBody").classList.toggle("open");
+    }
+
+    function getSelectedItem() {
+      if (!state.selectedItemId) return null;
+      return items[state.selectedItemId];
     }
 
     function getTemperatureLabel() {
@@ -858,60 +891,60 @@
     }
 
     function getLatteArtLabel() {
-      if (state.selectedDrinkId !== "tsukimachi-latte") return "";
-      if (state.latteArt === "latte-art") return "ラテアート";
-      if (state.latteArt === "3d-latte-art") return "3Dラテアート";
+      if (state.selectedItemId !== "tsukimachi_latte") return "";
+      if (state.latteArt === "latte_art") return "ラテアート";
+      if (state.latteArt === "3d_latte_art") return "3Dラテアート";
       return "ラテアートなし";
     }
 
-    function getSelectedDrink() {
-      if (!state.selectedDrinkId) return null;
-      return drinks[state.selectedDrinkId];
+    function getStackLabel() {
+      if (state.selectedItemId !== "tsukiakari_hotcake") return "";
+      return state.stack === "two" ? "2段" : "1段";
+    }
+
+    function getPlateLabel() {
+      if (state.selectedItemId !== "tsukiakari_napolitan") return "";
+      return state.plate === "teppan" ? "鉄板" : "通常";
     }
 
     function getTotalPrice() {
-      const drink = getSelectedDrink();
-      if (!drink) return 0;
+      const item = getSelectedItem();
+      if (!item) return 0;
 
-      if (state.selectedDrinkId === "tsukimachi-latte" && state.latteArt === "3d-latte-art") {
-        return 500;
-      }
+      if (state.selectedItemId === "tsukimachi_latte" && state.latteArt === "3d_latte_art") return 500;
+      if (state.selectedItemId === "tsukiakari_hotcake" && state.stack === "two") return 500;
+      if (state.selectedItemId === "tsukiakari_napolitan" && state.plate === "teppan") return 500;
 
-      return drink.price;
+      return item.price;
     }
 
     function getOrderText() {
-      const drink = getSelectedDrink();
-      if (!drink) return "";
+      const item = getSelectedItem();
+      if (!item) return "";
 
-      const parts = [drink.name, getTemperatureLabel()];
+      const parts = [item.name];
 
-      if (state.selectedDrinkId === "tsukimachi-latte") {
-        parts.push(getLatteArtLabel());
-      }
+      if (item.category === "drink") parts.push(getTemperatureLabel());
+      if (state.selectedItemId === "tsukimachi_latte") parts.push(getLatteArtLabel());
+      if (state.selectedItemId === "tsukiakari_hotcake") parts.push(getStackLabel());
+      if (state.selectedItemId === "tsukiakari_napolitan") parts.push(getPlateLabel());
 
       return parts.filter(Boolean).join(" / ");
     }
 
     function updateUI() {
-      const drink = getSelectedDrink();
+      const item = getSelectedItem();
 
-      document.querySelectorAll(".drink-select-card").forEach((card) => {
-        card.classList.remove("selected-card");
-      });
-
-      document.querySelectorAll(".inline-options").forEach((panel) => {
-        panel.classList.remove("open");
-      });
-
+      document.querySelectorAll(".order-select-card").forEach((card) => card.classList.remove("selected-card"));
+      document.querySelectorAll(".inline-options").forEach((panel) => panel.classList.remove("open"));
       document.querySelectorAll(".select-btn").forEach((btn) => {
         btn.classList.remove("selected");
         btn.textContent = "選ぶ ＞";
       });
 
-      if (drink) {
-        const selectedCard = document.getElementById("card-" + drink.id);
-        const selectedOptions = document.getElementById("options-" + drink.id);
+      if (item) {
+        const selectedCard = document.getElementById("card-" + item.id);
+        const selectedOptions = document.getElementById("options-" + item.id);
 
         if (selectedCard) {
           selectedCard.classList.add("selected-card");
@@ -922,26 +955,21 @@
           }
         }
 
-        if (selectedOptions) {
-          selectedOptions.classList.add("open");
-        }
+        if (selectedOptions) selectedOptions.classList.add("open");
       }
 
-      document.querySelectorAll("[data-temp]").forEach((btn) => {
-        btn.classList.toggle("selected", btn.dataset.temp === state.temperature);
-      });
-
-      document.querySelectorAll("[data-art]").forEach((btn) => {
-        btn.classList.toggle("selected", btn.dataset.art === state.latteArt);
-      });
+      document.querySelectorAll("[data-temp]").forEach((btn) => btn.classList.toggle("selected", btn.dataset.temp === state.temperature));
+      document.querySelectorAll("[data-art]").forEach((btn) => btn.classList.toggle("selected", btn.dataset.art === state.latteArt));
+      document.querySelectorAll("[data-stack]").forEach((btn) => btn.classList.toggle("selected", btn.dataset.stack === state.stack));
+      document.querySelectorAll("[data-plate]").forEach((btn) => btn.classList.toggle("selected", btn.dataset.plate === state.plate));
 
       const summaryText = document.getElementById("summaryText");
       const summarySub = document.getElementById("summarySub");
       const orderButton = document.getElementById("orderButton");
 
-      if (!drink) {
-        summaryText.textContent = "まだドリンクが選ばれていません";
-        summarySub.textContent = "ドリンクを1つ選ぶと注文できます";
+      if (!item) {
+        summaryText.textContent = "まだメニューが選ばれていません";
+        summarySub.textContent = "メニューを1つ選ぶと注文できます";
         orderButton.disabled = true;
         orderButton.textContent = "注文へ";
         return;
@@ -977,8 +1005,8 @@
     }
 
     async function submitOrder() {
-      const drink = getSelectedDrink();
-      if (!drink || state.sending || state.completed) return;
+      const item = getSelectedItem();
+      if (!item || state.sending || state.completed) return;
 
       state.sending = true;
       updateUI();
@@ -990,21 +1018,27 @@
 
       const payload = {
         orderId,
-        item: drink.name,
-        englishName: drink.englishName,
-        temperature: getTemperatureLabel(),
-        latteArt: state.selectedDrinkId === "tsukimachi-latte" ? getLatteArtLabel() : "",
+        item: item.name,
+        menu: item.name,
+        englishName: item.englishName || "",
+        category: item.category,
+        temperature: item.category === "drink" ? getTemperatureLabel() : "",
+        latteArt: state.selectedItemId === "tsukimachi_latte" ? getLatteArtLabel() : "",
+        option: [getStackLabel(), getPlateLabel()].filter(Boolean).join(" / "),
         price: totalPrice,
         total: totalPrice,
         orderText,
+        note: "",
         message: `【たまき珈琲店】注文が入りました\n注文番号：${orderId}\n内容：${orderText}\n合計：${totalPrice} TAMA`,
         timestamp: new Date().toISOString(),
         items: [
           {
-            id: drink.id,
-            name: drink.name,
-            temperature: getTemperatureLabel(),
-            latteArt: state.selectedDrinkId === "tsukimachi-latte" ? getLatteArtLabel() : "",
+            id: item.id,
+            name: item.name,
+            category: item.category,
+            temperature: item.category === "drink" ? getTemperatureLabel() : "",
+            latteArt: state.selectedItemId === "tsukimachi_latte" ? getLatteArtLabel() : "",
+            option: [getStackLabel(), getPlateLabel()].filter(Boolean).join(" / "),
             price: totalPrice
           }
         ]
