@@ -17,7 +17,6 @@
       --soft-shadow: 0 6px 16px rgba(72, 43, 23, 0.1);
       --radius-lg: 22px;
       --radius-md: 16px;
-      --radius-sm: 12px;
     }
 
     * { box-sizing: border-box; }
@@ -97,6 +96,7 @@
       border-radius: var(--radius-lg);
       box-shadow: var(--soft-shadow);
       overflow: hidden;
+      transition: box-shadow 0.15s ease, border-color 0.15s ease;
     }
 
     .featured-card {
@@ -121,6 +121,13 @@
       grid-template-columns: 42% 1fr;
       gap: 10px;
       align-items: center;
+    }
+
+    .selected-card {
+      border-color: var(--accent);
+      box-shadow:
+        0 0 0 2px rgba(216, 167, 95, 0.45),
+        0 12px 24px rgba(90, 52, 34, 0.16);
     }
 
     .badge {
@@ -226,7 +233,8 @@
     .pill-btn,
     .mini-btn,
     .remove-btn,
-    .clear-btn {
+    .clear-btn,
+    .close-choice-btn {
       border: none;
       background: var(--brown);
       color: #fff8ec;
@@ -251,7 +259,13 @@
     .pill-btn:active,
     .mini-btn:active,
     .remove-btn:active,
-    .clear-btn:active { transform: translateY(1px); }
+    .clear-btn:active,
+    .close-choice-btn:active { transform: translateY(1px); }
+
+    .select-btn.selected {
+      background: var(--accent);
+      color: var(--brown);
+    }
 
     .drink-grid {
       display: grid;
@@ -300,6 +314,27 @@
       margin-bottom: 6px;
     }
 
+    .choice-panel {
+      display: none;
+      grid-column: 1 / -1;
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255, 244, 220, 0.95);
+      border: 1px dashed #dfc7a5;
+    }
+
+    .drink-card .choice-panel { margin-top: 0; }
+
+    .choice-panel.open { display: block; }
+
+    .choice-title {
+      margin: 0 0 8px;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--brown);
+    }
+
     .option-group { margin: 8px 0 10px; }
 
     .option-label {
@@ -333,6 +368,24 @@
       color: var(--muted);
       margin: 6px 0 0;
       line-height: 1.5;
+    }
+
+    .choice-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .choice-actions .select-btn { flex: 1; }
+
+    .close-choice-btn {
+      padding: 8px 12px;
+      font-size: 12px;
+      background: #ead8bc;
+      color: var(--brown);
+      box-shadow: none;
+      border: 1px solid #dfc7a5;
     }
 
     .secret-card {
@@ -527,7 +580,7 @@
     <section class="section" aria-labelledby="drink-section-title">
       <h2 id="drink-section-title" class="section-title">☕ ドリンク <small>注文できます</small></h2>
 
-      <article class="featured-card" id="card-tamaki_blend">
+      <article class="featured-card menu-select-card" id="card-tamaki_blend">
         <span class="badge">おすすめ</span>
         <div class="menu-img-wrap">
           <img src="/images/tamaki_blend.png" alt="たまきブレンドのイラスト" onerror="markImageMissing(this)" />
@@ -538,6 +591,10 @@
           <div class="menu-name-ja">たまきブレンド</div>
           <p class="desc">やさしい苦みと香ばしさの、夜に寄り添う一杯。</p>
           <div class="price">100 TAMA</div>
+          <button class="select-btn" type="button" onclick="selectMenu('tamaki_blend')">選ぶ</button>
+        </div>
+        <div class="choice-panel" id="choice-tamaki_blend">
+          <p class="choice-title">たまきブレンドをどうぞ。</p>
           <div class="option-group">
             <span class="option-label">温度</span>
             <div class="pill-row">
@@ -545,12 +602,15 @@
               <button class="pill-btn" type="button" data-temp-for="tamaki_blend" data-value="ice" onclick="setItemOption('tamaki_blend', 'temperature', 'ice')">アイス</button>
             </div>
           </div>
-          <button class="select-btn" type="button" onclick="addToTray('tamaki_blend')">おぼんへ</button>
+          <div class="choice-actions">
+            <button class="select-btn" type="button" onclick="addToTray('tamaki_blend')">おぼんへ</button>
+            <button class="close-choice-btn" type="button" onclick="closeChoice()">閉じる</button>
+          </div>
         </div>
       </article>
 
       <div class="drink-grid">
-        <article class="drink-card" id="card-tsukimachi_latte">
+        <article class="drink-card menu-select-card" id="card-tsukimachi_latte">
           <div class="menu-img-wrap">
             <img src="/images/tsukimachi_latte.png" alt="月待ちラテのイラスト" onerror="markImageMissing(this)" />
             <div class="image-fallback">月待ち<br />ラテ</div>
@@ -560,6 +620,10 @@
             <div class="menu-name-ja">月待ちラテ</div>
             <p class="desc">月を見上げるような、やさしい甘さのラテ。</p>
             <div class="price">300 TAMA</div>
+            <button class="select-btn" type="button" onclick="selectMenu('tsukimachi_latte')">選ぶ</button>
+          </div>
+          <div class="choice-panel" id="choice-tsukimachi_latte">
+            <p class="choice-title">わあ、ラテアートも選べます。</p>
             <div class="option-group">
               <span class="option-label">温度</span>
               <div class="pill-row">
@@ -571,16 +635,19 @@
               <span class="option-label">ラテアート</span>
               <div class="pill-row">
                 <button class="pill-btn" type="button" data-art-for="tsukimachi_latte" data-value="none" onclick="setItemOption('tsukimachi_latte', 'latteArt', 'none')">なし</button>
-                <button class="pill-btn" type="button" data-art-for="tsukimachi_latte" data-value="latte_art" onclick="setItemOption('tsukimachi_latte', 'latteArt', 'latte_art')">ラテ</button>
-                <button class="pill-btn" type="button" data-art-for="tsukimachi_latte" data-value="3d_latte_art" onclick="setItemOption('tsukimachi_latte', 'latteArt', '3d_latte_art')">3D</button>
+                <button class="pill-btn" type="button" data-art-for="tsukimachi_latte" data-value="latte_art" onclick="setItemOption('tsukimachi_latte', 'latteArt', 'latte_art')">ラテアート</button>
+                <button class="pill-btn" type="button" data-art-for="tsukimachi_latte" data-value="3d_latte_art" onclick="setItemOption('tsukimachi_latte', 'latteArt', '3d_latte_art')">3Dラテアート</button>
               </div>
-              <p class="option-note">3Dは500 TAMA</p>
+              <p class="option-note">3Dラテアートは500 TAMAです。</p>
             </div>
-            <button class="select-btn" type="button" onclick="addToTray('tsukimachi_latte')">おぼんへ</button>
+            <div class="choice-actions">
+              <button class="select-btn" type="button" onclick="addToTray('tsukimachi_latte')">おぼんへ</button>
+              <button class="close-choice-btn" type="button" onclick="closeChoice()">閉じる</button>
+            </div>
           </div>
         </article>
 
-        <article class="drink-card" id="card-tamaki_milk_latte">
+        <article class="drink-card menu-select-card" id="card-tamaki_milk_latte">
           <div class="menu-img-wrap">
             <img src="/images/tamaki_milk_latte.png" alt="たまきミルクラテのイラスト" onerror="markImageMissing(this)" />
             <div class="image-fallback">ミルク<br />ラテ</div>
@@ -590,6 +657,10 @@
             <div class="menu-name-ja">たまきミルクラテ</div>
             <p class="desc">まろやかなミルクの甘みで、ほっとする一杯。</p>
             <div class="price">300 TAMA</div>
+            <button class="select-btn" type="button" onclick="selectMenu('tamaki_milk_latte')">選ぶ</button>
+          </div>
+          <div class="choice-panel" id="choice-tamaki_milk_latte">
+            <p class="choice-title">たまきミルクラテをどうぞ。</p>
             <div class="option-group">
               <span class="option-label">温度</span>
               <div class="pill-row">
@@ -597,7 +668,10 @@
                 <button class="pill-btn" type="button" data-temp-for="tamaki_milk_latte" data-value="ice" onclick="setItemOption('tamaki_milk_latte', 'temperature', 'ice')">アイス</button>
               </div>
             </div>
-            <button class="select-btn" type="button" onclick="addToTray('tamaki_milk_latte')">おぼんへ</button>
+            <div class="choice-actions">
+              <button class="select-btn" type="button" onclick="addToTray('tamaki_milk_latte')">おぼんへ</button>
+              <button class="close-choice-btn" type="button" onclick="closeChoice()">閉じる</button>
+            </div>
           </div>
         </article>
       </div>
@@ -606,22 +680,37 @@
     <section class="section" aria-labelledby="sweets-section-title">
       <h2 id="sweets-section-title" class="section-title">🍮 甘味 <small>注文できます</small></h2>
       <div class="menu-grid">
-        <article class="menu-card" id="card-yorufukashi_pudding">
+        <article class="menu-card menu-select-card" id="card-yorufukashi_pudding">
           <div class="menu-img-wrap">
-            <img class="zoomable" src="/images/yorufukashi_pudding.png" alt="夜更かしプリンのイラスト" onclick="openImageModal(this.src, this.alt)" onerror="markImageMissing(this)" />
+            <img class="zoomable" src="/images/yorufukashi_pudding.png" alt="たまきプリンのイラスト" onclick="openImageModal(this.src, this.alt)" onerror="markImageMissing(this)" />
             <span class="zoom-hint">拡大</span>
-            <div class="image-fallback">夜更かし<br />プリン</div>
+            <div class="image-fallback">たまき<br />プリン</div>
           </div>
           <div class="item-info">
             <span class="item-badge">甘味</span>
-            <h3 class="item-title">夜更かしプリン</h3>
-            <p class="item-desc">猫型の型で作る、ちょっと固めの夜プリン。</p>
-            <p class="item-price">300 TAMA</p>
-            <button class="select-btn" type="button" onclick="addToTray('yorufukashi_pudding')">おぼんへ</button>
+            <h3 class="item-title">たまきプリン</h3>
+            <p class="item-desc">ねこのかたちの、やさしいごほうびプリン。</p>
+            <p class="item-price">ネコ 300 TAMA / ネコ＋コネコ 500 TAMA</p>
+            <button class="select-btn" type="button" onclick="selectMenu('yorufukashi_pudding')">選ぶ</button>
+          </div>
+          <div class="choice-panel" id="choice-yorufukashi_pudding">
+            <p class="choice-title">わー、コネコものせられます。</p>
+            <div class="option-group">
+              <span class="option-label">かたち</span>
+              <div class="pill-row">
+                <button class="pill-btn" type="button" data-stack-for="yorufukashi_pudding" data-value="one" onclick="setItemOption('yorufukashi_pudding', 'stack', 'one')">ネコ</button>
+                <button class="pill-btn" type="button" data-stack-for="yorufukashi_pudding" data-value="two" onclick="setItemOption('yorufukashi_pudding', 'stack', 'two')">ネコ＋コネコ</button>
+              </div>
+              <p class="option-note">ネコは300 TAMA、ネコ＋コネコは500 TAMAです。</p>
+            </div>
+            <div class="choice-actions">
+              <button class="select-btn" type="button" onclick="addToTray('yorufukashi_pudding')">おぼんへ</button>
+              <button class="close-choice-btn" type="button" onclick="closeChoice()">閉じる</button>
+            </div>
           </div>
         </article>
 
-        <article class="menu-card" id="card-tsukiakari_hotcake">
+        <article class="menu-card menu-select-card" id="card-tsukiakari_hotcake">
           <div class="menu-img-wrap">
             <img class="zoomable" src="/images/tsukiakari_hotcake.png" alt="月あかりホットケーキのイラスト" onclick="openImageModal(this.src, this.alt)" onerror="markImageMissing(this)" />
             <span class="zoom-hint">拡大</span>
@@ -632,6 +721,10 @@
             <h3 class="item-title">月あかりホットケーキ</h3>
             <p class="item-desc">月の形のバターをのせた、夜カフェのホットケーキ。</p>
             <p class="item-price">1段 300 TAMA / 2段 500 TAMA</p>
+            <button class="select-btn" type="button" onclick="selectMenu('tsukiakari_hotcake')">選ぶ</button>
+          </div>
+          <div class="choice-panel" id="choice-tsukiakari_hotcake">
+            <p class="choice-title">わー、二段も選べます。</p>
             <div class="option-group">
               <span class="option-label">段数</span>
               <div class="pill-row">
@@ -639,11 +732,14 @@
                 <button class="pill-btn" type="button" data-stack-for="tsukiakari_hotcake" data-value="two" onclick="setItemOption('tsukiakari_hotcake', 'stack', 'two')">2段</button>
               </div>
             </div>
-            <button class="select-btn" type="button" onclick="addToTray('tsukiakari_hotcake')">おぼんへ</button>
+            <div class="choice-actions">
+              <button class="select-btn" type="button" onclick="addToTray('tsukiakari_hotcake')">おぼんへ</button>
+              <button class="close-choice-btn" type="button" onclick="closeChoice()">閉じる</button>
+            </div>
           </div>
         </article>
 
-        <article class="menu-card" id="card-miichan_shortcake">
+        <article class="menu-card menu-select-card" id="card-miichan_shortcake">
           <div class="menu-img-wrap">
             <img class="zoomable" src="/images/miichan_shortcake.png" alt="みーちゃんショートケーキのイラスト" onclick="openImageModal(this.src, this.alt)" onerror="markImageMissing(this)" />
             <span class="zoom-hint">拡大</span>
@@ -654,7 +750,14 @@
             <h3 class="item-title">みーちゃんショートケーキ</h3>
             <p class="item-desc">みーちゃんが心をこめて作る、サワークリーム入りの特別なケーキ。</p>
             <p class="item-price">500 TAMA</p>
-            <button class="select-btn" type="button" onclick="addToTray('miichan_shortcake')">おぼんへ</button>
+            <button class="select-btn" type="button" onclick="selectMenu('miichan_shortcake')">選ぶ</button>
+          </div>
+          <div class="choice-panel" id="choice-miichan_shortcake">
+            <p class="choice-title">みーちゃんショートケーキをおぼんへ。</p>
+            <div class="choice-actions">
+              <button class="select-btn" type="button" onclick="addToTray('miichan_shortcake')">おぼんへ</button>
+              <button class="close-choice-btn" type="button" onclick="closeChoice()">閉じる</button>
+            </div>
           </div>
         </article>
       </div>
@@ -663,7 +766,7 @@
     <section class="section" aria-labelledby="food-section-title">
       <h2 id="food-section-title" class="section-title">🍴 軽食 <small>注文できます</small></h2>
       <div class="menu-grid">
-        <article class="menu-card" id="card-tsukiakari_napolitan">
+        <article class="menu-card menu-select-card" id="card-tsukiakari_napolitan">
           <div class="menu-img-wrap">
             <img class="zoomable" src="/images/tsukiakari_napolitan.png" alt="月あかりナポリタンのイラスト" onclick="openImageModal(this.src, this.alt)" onerror="markImageMissing(this)" />
             <span class="zoom-hint">拡大</span>
@@ -674,6 +777,10 @@
             <h3 class="item-title">月あかりナポリタン</h3>
             <p class="item-desc">やさしいケチャップ味。鉄板にすると卵敷きのウスター仕立て。</p>
             <p class="item-price">通常 300 TAMA / 鉄板 500 TAMA</p>
+            <button class="select-btn" type="button" onclick="selectMenu('tsukiakari_napolitan')">選ぶ</button>
+          </div>
+          <div class="choice-panel" id="choice-tsukiakari_napolitan">
+            <p class="choice-title">鉄板にもできます。</p>
             <div class="option-group">
               <span class="option-label">仕上げ</span>
               <div class="pill-row">
@@ -681,11 +788,14 @@
                 <button class="pill-btn" type="button" data-plate-for="tsukiakari_napolitan" data-value="teppan" onclick="setItemOption('tsukiakari_napolitan', 'plate', 'teppan')">鉄板</button>
               </div>
             </div>
-            <button class="select-btn" type="button" onclick="addToTray('tsukiakari_napolitan')">おぼんへ</button>
+            <div class="choice-actions">
+              <button class="select-btn" type="button" onclick="addToTray('tsukiakari_napolitan')">おぼんへ</button>
+              <button class="close-choice-btn" type="button" onclick="closeChoice()">閉じる</button>
+            </div>
           </div>
         </article>
 
-        <article class="menu-card" id="card-butter_chicken_curry">
+        <article class="menu-card menu-select-card" id="card-butter_chicken_curry">
           <div class="menu-img-wrap">
             <img class="zoomable" src="/images/butter_chicken_curry.png" alt="バターチキンカレーのイラスト" onclick="openImageModal(this.src, this.alt)" onerror="markImageMissing(this)" />
             <span class="zoom-hint">拡大</span>
@@ -696,11 +806,18 @@
             <h3 class="item-title">バターチキンカレー</h3>
             <p class="item-desc">まろやかなトマトのコクと、バターの深い香り。</p>
             <p class="item-price">500 TAMA</p>
-            <button class="select-btn" type="button" onclick="addToTray('butter_chicken_curry')">おぼんへ</button>
+            <button class="select-btn" type="button" onclick="selectMenu('butter_chicken_curry')">選ぶ</button>
+          </div>
+          <div class="choice-panel" id="choice-butter_chicken_curry">
+            <p class="choice-title">バターチキンカレーをおぼんへ。</p>
+            <div class="choice-actions">
+              <button class="select-btn" type="button" onclick="addToTray('butter_chicken_curry')">おぼんへ</button>
+              <button class="close-choice-btn" type="button" onclick="closeChoice()">閉じる</button>
+            </div>
           </div>
         </article>
 
-        <article class="menu-card" id="card-cornedbeef_hot_sand">
+        <article class="menu-card menu-select-card" id="card-cornedbeef_hot_sand">
           <div class="menu-img-wrap">
             <img class="zoomable" src="/images/cornedbeef_hot_sand.png" alt="コンビーフホットサンドのイラスト" onclick="openImageModal(this.src, this.alt)" onerror="markImageMissing(this)" />
             <span class="zoom-hint">拡大</span>
@@ -711,7 +828,14 @@
             <h3 class="item-title">コンビーフホットサンド</h3>
             <p class="item-desc">カリッと焼いたパンに、コンビーフとチーズをぎゅっと。</p>
             <p class="item-price">800 TAMA</p>
-            <button class="select-btn" type="button" onclick="addToTray('cornedbeef_hot_sand')">おぼんへ</button>
+            <button class="select-btn" type="button" onclick="selectMenu('cornedbeef_hot_sand')">選ぶ</button>
+          </div>
+          <div class="choice-panel" id="choice-cornedbeef_hot_sand">
+            <p class="choice-title">コンビーフホットサンドをおぼんへ。</p>
+            <div class="choice-actions">
+              <button class="select-btn" type="button" onclick="addToTray('cornedbeef_hot_sand')">おぼんへ</button>
+              <button class="close-choice-btn" type="button" onclick="closeChoice()">閉じる</button>
+            </div>
           </div>
         </article>
       </div>
@@ -719,7 +843,7 @@
 
     <section class="section" aria-labelledby="secret-section-title">
       <h2 id="secret-section-title" class="section-title">🕯 裏メニュー <small>注文できます</small></h2>
-      <article class="secret-card" id="card-ore_no_sausage">
+      <article class="secret-card menu-select-card" id="card-ore_no_sausage">
         <div class="secret-head">
           <h3 class="secret-title">店長が目をそらした時だけ開く棚</h3>
           <button class="mini-btn" type="button" onclick="toggleSecret()">のぞく</button>
@@ -735,7 +859,14 @@
               <h4>ひみつのそーせーじ</h4>
               <p>ひっそり存在する謎の裏メニュー。店主に聞くと、厨房が少しざわつきます。</p>
               <p class="display-price">600 TAMA</p>
+              <button class="select-btn" type="button" onclick="selectMenu('ore_no_sausage')">選ぶ</button>
+            </div>
+          </div>
+          <div class="choice-panel" id="choice-ore_no_sausage">
+            <p class="choice-title">ひみつのそーせーじをおぼんへ。</p>
+            <div class="choice-actions">
               <button class="select-btn" type="button" onclick="addToTray('ore_no_sausage')">おぼんへ</button>
+              <button class="close-choice-btn" type="button" onclick="closeChoice()">閉じる</button>
             </div>
           </div>
         </div>
@@ -770,7 +901,7 @@
       tamaki_blend: { id: "tamaki_blend", category: "drink", name: "たまきブレンド", englishName: "Tamaki Blend", price: 100 },
       tsukimachi_latte: { id: "tsukimachi_latte", category: "drink", name: "月待ちラテ", englishName: "Tsukimachi Latte", price: 300 },
       tamaki_milk_latte: { id: "tamaki_milk_latte", category: "drink", name: "たまきミルクラテ", englishName: "Tamaki Milk Latte", price: 300 },
-      yorufukashi_pudding: { id: "yorufukashi_pudding", category: "sweet", name: "夜更かしプリン", price: 300 },
+      yorufukashi_pudding: { id: "yorufukashi_pudding", category: "sweet", name: "たまきプリン", price: 300 },
       tsukiakari_hotcake: { id: "tsukiakari_hotcake", category: "sweet", name: "月あかりホットケーキ", price: 300 },
       miichan_shortcake: { id: "miichan_shortcake", category: "sweet", name: "みーちゃんショートケーキ", price: 500 },
       tsukiakari_napolitan: { id: "tsukiakari_napolitan", category: "food", name: "月あかりナポリタン", price: 300 },
@@ -780,10 +911,12 @@
     };
 
     const state = {
+      activeItemId: null,
       options: {
         tamaki_blend: { temperature: "hot" },
         tsukimachi_latte: { temperature: "hot", latteArt: "none" },
         tamaki_milk_latte: { temperature: "hot" },
+        yorufukashi_pudding: { stack: "one" },
         tsukiakari_hotcake: { stack: "one" },
         tsukiakari_napolitan: { plate: "normal" }
       },
@@ -815,6 +948,17 @@
       document.getElementById("secretBody").classList.toggle("open");
     }
 
+    function selectMenu(itemId) {
+      state.activeItemId = state.activeItemId === itemId ? null : itemId;
+      showMessage("", "");
+      updateUI();
+    }
+
+    function closeChoice() {
+      state.activeItemId = null;
+      updateUI();
+    }
+
     function setItemOption(itemId, key, value) {
       if (!state.options[itemId]) state.options[itemId] = {};
       state.options[itemId][key] = value;
@@ -833,6 +977,10 @@
 
     function getStackLabel(value) {
       return value === "two" ? "2段" : "1段";
+    }
+
+    function getPuddingLabel(value) {
+      return value === "two" ? "ネコ＋コネコ" : "ネコ";
     }
 
     function getPlateLabel(value) {
@@ -857,6 +1005,13 @@
         parts.push(getLatteArtLabel(art));
         detail.latteArt = getLatteArtLabel(art);
         if (art === "3d_latte_art") price = 500;
+      }
+
+      if (itemId === "yorufukashi_pudding") {
+        const stack = option.stack || "one";
+        parts.push(getPuddingLabel(stack));
+        detail.option = getPuddingLabel(stack);
+        if (stack === "two") price = 500;
       }
 
       if (itemId === "tsukiakari_hotcake") {
@@ -887,6 +1042,7 @@
 
     function addToTray(itemId) {
       state.tray.push(buildTrayItem(itemId));
+      state.activeItemId = null;
       showMessage("success", "おぼんにのせました。ほかのメニューも続けて選べます。");
       updateUI();
     }
@@ -959,8 +1115,33 @@
       });
     }
 
+    function updateChoicePanels() {
+      document.querySelectorAll(".menu-select-card").forEach((card) => card.classList.remove("selected-card"));
+      document.querySelectorAll(".choice-panel").forEach((panel) => panel.classList.remove("open"));
+      document.querySelectorAll(".menu-select-card > div .select-btn, .secret-item .select-btn").forEach((btn) => {
+        if (btn.textContent === "選択中") btn.textContent = "選ぶ";
+        btn.classList.remove("selected");
+      });
+
+      if (!state.activeItemId) return;
+
+      const card = document.getElementById("card-" + state.activeItemId);
+      const panel = document.getElementById("choice-" + state.activeItemId);
+      if (card) card.classList.add("selected-card");
+      if (panel) panel.classList.add("open");
+
+      if (card) {
+        const firstButton = card.querySelector("button.select-btn");
+        if (firstButton && firstButton.textContent === "選ぶ") {
+          firstButton.textContent = "選択中";
+          firstButton.classList.add("selected");
+        }
+      }
+    }
+
     function updateUI() {
       updateOptionButtons();
+      updateChoicePanels();
       renderTray();
 
       const summaryText = document.getElementById("summaryText");
@@ -1049,6 +1230,7 @@
         if (!response.ok) throw new Error("注文送信に失敗しました");
 
         state.tray = [];
+        state.activeItemId = null;
         showMessage("success", "注文を送信しました。おぼんは空になりました。");
       } catch (error) {
         console.error(error);
