@@ -315,51 +315,61 @@
 
     .display-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
 
     .display-card {
-      padding: 8px;
-      min-height: 150px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      padding: 10px;
+      min-height: unset;
+      display: grid;
+      grid-template-columns: 42% 1fr;
+      gap: 10px;
+      align-items: center;
     }
 
-    .display-illustration {
-      width: 100%;
-      aspect-ratio: 1 / 0.8;
-      border-radius: var(--radius-sm);
-      background: #f3e3c9;
-      display: grid;
-      place-items: center;
-      font-size: 34px;
-      border: 1px solid rgba(234, 216, 188, 0.95);
+    .display-card .menu-img-wrap {
+      border-radius: var(--radius-md);
+      aspect-ratio: 1 / 0.82;
     }
+
+    .display-card .menu-img-wrap img {
+      object-fit: cover;
+    }
+
+    .display-info { min-width: 0; }
 
     .display-name {
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 900;
-      margin: 0;
+      margin: 0 0 5px;
       color: var(--brown);
+      line-height: 1.35;
     }
 
     .display-desc {
-      font-size: 10.5px;
-      line-height: 1.45;
+      font-size: 11.5px;
+      line-height: 1.55;
       color: #6e5544;
+      margin: 0 0 7px;
+    }
+
+    .display-price {
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--brown);
       margin: 0;
     }
 
     .display-badge {
-      align-self: flex-start;
+      display: inline-block;
       font-size: 10px;
       padding: 3px 7px;
       border-radius: 999px;
       color: var(--brown);
       background: #f1dfbf;
       font-weight: 900;
+      margin-bottom: 6px;
     }
 
     .secret-card {
@@ -398,20 +408,14 @@
 
     .secret-item {
       display: grid;
-      grid-template-columns: 54px 1fr;
+      grid-template-columns: 92px 1fr;
       gap: 10px;
       align-items: center;
     }
 
-    .secret-icon {
-      width: 54px;
-      height: 54px;
-      display: grid;
-      place-items: center;
-      background: #f3e3c9;
+    .secret-item .menu-img-wrap {
+      aspect-ratio: 1 / 0.82;
       border-radius: 15px;
-      font-size: 29px;
-      border: 1px solid rgba(234, 216, 188, 0.95);
     }
 
     .secret-item h4 {
@@ -420,7 +424,7 @@
     }
 
     .secret-item p {
-      margin: 0;
+      margin: 0 0 5px;
       font-size: 12px;
       line-height: 1.55;
       color: var(--muted);
@@ -530,8 +534,13 @@
       .menu-name { font-size: 18px; }
       .desc { font-size: 12px; }
 
-      .display-grid { grid-template-columns: 1fr 1fr; }
-      .display-card { min-height: 145px; }
+      .display-card {
+        grid-template-columns: 40% 1fr;
+        gap: 9px;
+      }
+
+      .display-name { font-size: 14px; }
+      .display-desc { font-size: 11px; }
 
       .order-btn {
         min-width: 92px;
@@ -649,24 +658,42 @@
 
       <div class="display-grid">
         <article class="display-card">
-          <div class="display-illustration">🍮</div>
-          <span class="display-badge">見るだけ</span>
-          <h3 class="display-name">夜ふかしプリン</h3>
-          <p class="display-desc">昔ながらの、ぷるんと甘い妄想プリン。</p>
+          <div class="menu-img-wrap">
+            <img src="/images/yorufukashi-pudding.png" alt="夜更かしプリンのイラスト" onerror="markImageMissing(this)" />
+            <div class="image-fallback">夜更かし<br />プリン</div>
+          </div>
+          <div class="display-info">
+            <span class="display-badge">見るだけ</span>
+            <h3 class="display-name">夜更かしプリン</h3>
+            <p class="display-desc">猫型の型で作る、ちょっと固めの夜プリン。</p>
+            <p class="display-price">300 TAMA</p>
+          </div>
         </article>
 
         <article class="display-card">
-          <div class="display-illustration">🥞</div>
-          <span class="display-badge">見るだけ</span>
-          <h3 class="display-name">月明かりホットケーキ</h3>
-          <p class="display-desc">ふんわり積まれた、夢の重層建築。</p>
+          <div class="menu-img-wrap">
+            <img src="/images/tsukiakari-hotcake.png" alt="月あかりホットケーキのイラスト" onerror="markImageMissing(this)" />
+            <div class="image-fallback">月あかり<br />ホットケーキ</div>
+          </div>
+          <div class="display-info">
+            <span class="display-badge">見るだけ</span>
+            <h3 class="display-name">月あかりホットケーキ</h3>
+            <p class="display-desc">月の形のバターをのせた、夜カフェのホットケーキ。</p>
+            <p class="display-price">1段 300 TAMA / 2段 500 TAMA</p>
+          </div>
         </article>
 
         <article class="display-card">
-          <div class="display-illustration">🍰</div>
-          <span class="display-badge">見るだけ</span>
-          <h3 class="display-name">ごほうびケーキ</h3>
-          <p class="display-desc">本日は絵での提供となります。</p>
+          <div class="menu-img-wrap">
+            <img src="/images/miichan-shortcake.png" alt="みーちゃんショートケーキのイラスト" onerror="markImageMissing(this)" />
+            <div class="image-fallback">みーちゃん<br />ショート</div>
+          </div>
+          <div class="display-info">
+            <span class="display-badge">見るだけ</span>
+            <h3 class="display-name">みーちゃんショートケーキ</h3>
+            <p class="display-desc">みーちゃんが心をこめて作る、サワークリーム入りの特別なケーキ。</p>
+            <p class="display-price">500 TAMA</p>
+          </div>
         </article>
       </div>
     </section>
@@ -676,24 +703,42 @@
 
       <div class="display-grid">
         <article class="display-card">
-          <div class="display-illustration">🍞</div>
-          <span class="display-badge">見るだけ</span>
-          <h3 class="display-name">こんがりトースト</h3>
-          <p class="display-desc">サクッと香ばしい予定だった一枚。</p>
+          <div class="menu-img-wrap">
+            <img src="/images/tsukiakari-napolitan.png" alt="月あかりナポリタンのイラスト" onerror="markImageMissing(this)" />
+            <div class="image-fallback">月あかり<br />ナポリタン</div>
+          </div>
+          <div class="display-info">
+            <span class="display-badge">見るだけ</span>
+            <h3 class="display-name">月あかりナポリタン</h3>
+            <p class="display-desc">やさしいケチャップ味。鉄板にすると卵敷きのウスター仕立て。</p>
+            <p class="display-price">通常 300 TAMA / 鉄板 500 TAMA</p>
+          </div>
         </article>
 
         <article class="display-card">
-          <div class="display-illustration">🥪</div>
-          <span class="display-badge">見るだけ</span>
-          <h3 class="display-name">たまごサンド</h3>
-          <p class="display-desc">やさしい味を想像でお楽しみください。</p>
+          <div class="menu-img-wrap">
+            <img src="/images/butter-chicken-curry.png" alt="バターチキンカレーのイラスト" onerror="markImageMissing(this)" />
+            <div class="image-fallback">バター<br />チキンカレー</div>
+          </div>
+          <div class="display-info">
+            <span class="display-badge">見るだけ</span>
+            <h3 class="display-name">バターチキンカレー</h3>
+            <p class="display-desc">まろやかなトマトのコクと、バターの深い香り。</p>
+            <p class="display-price">500 TAMA</p>
+          </div>
         </article>
 
         <article class="display-card">
-          <div class="display-illustration">🍝</div>
-          <span class="display-badge">見るだけ</span>
-          <h3 class="display-name">喫茶ナポリタン</h3>
-          <p class="display-desc">昭和の湯気だけ先に到着しました。</p>
+          <div class="menu-img-wrap">
+            <img src="/images/cornedbeef-hot-sand.png" alt="コンビーフホットサンドのイラスト" onerror="markImageMissing(this)" />
+            <div class="image-fallback">コンビーフ<br />ホットサンド</div>
+          </div>
+          <div class="display-info">
+            <span class="display-badge">見るだけ</span>
+            <h3 class="display-name">コンビーフホットサンド</h3>
+            <p class="display-desc">カリッと焼いたパンに、コンビーフとチーズをぎゅっと。</p>
+            <p class="display-price">800 TAMA</p>
+          </div>
         </article>
       </div>
     </section>
@@ -709,10 +754,14 @@
 
         <div class="secret-body" id="secretBody">
           <div class="secret-item">
-            <div class="secret-icon">🌭</div>
+            <div class="menu-img-wrap">
+              <img src="/images/ore-no-sausage.png" alt="オレのそーせーじのイラスト" onerror="markImageMissing(this)" />
+              <div class="image-fallback">オレの<br />そーせーじ</div>
+            </div>
             <div>
               <h4>オレのそーせーじ</h4>
-              <p>ひっそり存在する謎の裏メニュー。現在は観賞用です。注文できそうな顔をしていますが、まだ厨房がざわついています。</p>
+              <p>ひっそり存在する謎の裏メニュー。店主に聞くと、厨房が少しざわつきます。</p>
+              <p class="display-price">600 TAMA</p>
             </div>
           </div>
         </div>
@@ -755,7 +804,7 @@
       "tamaki-milk-latte": {
         id: "tamaki-milk-latte",
         name: "たまきミルクラテ",
-        englishName: "Milk Latte",
+        englishName: "Tamaki Milk Latte",
         price: 300
       }
     };
